@@ -34,3 +34,14 @@ class Product(models.Model):
     
 
     
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product)
+    image = models.ImageField(upload_to='products/images')
+    featured = models.BooleanField(default=False)
+    thumbnail = models.BooleanField(default=False)
+    active = models.BooleanField(default=False)
+    updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+    def __str__(self):
+        return self.product.title
+    
