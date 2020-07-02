@@ -15,7 +15,7 @@
 {% endblock jquery %}
 
 
-{% block jumbotron2 %}
+{% block jumbotron %}
  <div class="container">
     <!-- Main component for a primary marketing message or call to action -->
     <div class="jumbotron">
@@ -26,7 +26,7 @@
     </div>
 </div>
         
-{% endblock jumbotron2 %}
+{% endblock jumbotron %}
 
 {% block content %}
     <div class="row">
@@ -44,12 +44,23 @@
             <div class="col-sm-3">
                 {% for item in product.productimage_set.all %}
                     {% if item.featured %}
-                        <img src="{{MEDIA_URL}}{{item.image}}" />
+                        {% comment %} {{MEDIA_URL}}
+                        {{item.image}} {% endcomment %}
+                        <img src="{{MEDIA_URL}}{{item.image}}">
                     {% endif %}
                 {% endfor %}
-                {{product.id}}
-                {{product.title}}
+                {% comment %} {{product.id}} {% endcomment %}
+
+                {% comment %}
+                    1st way 
+                    <a href="products/{{product.slug}}">{{product.title}}</a>
+                    2nd way
+                    <a href="{% url 'single_product' product.slug %}">{{product.title}}</a> 
+                    3rd way 
+                {% endcomment %}
+                    <a href="{{  product.get_absolute_url }}">{{product.title}}</a>
                 {{product.price}}
+                {% comment %} {{product.slug}} {% endcomment %}
             </div>
 
             {% cycle "" "" "" "</div><br><hr><div class='row'>" %}

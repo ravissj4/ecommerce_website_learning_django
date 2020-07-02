@@ -22,7 +22,18 @@ from django.conf import settings
 urlpatterns = [
     url(r"^$", views.home, name="home"),
     url(r'^products/$', views.all, name='products'),
-    url(r'^admin/', admin.site.urls),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    
+    # url(r"^products/(?P<slug>.*)/$", .views.single, name="single"),
+    # url(r"^products/(?P<id>\d+)/$", views.single, name="single"),
+    
+    url(r"^products/(?P<slug>[\w-]+)/$", views.single, name="single_product"),
 
-urlpatterns += static(settings.MEDIA_URL, document_url=settings.MEDIA_ROOT)
+   
+    
+    
+    url(r'^admin/', admin.site.urls),
+] 
+
+if settings.DEBUG:
+    urlpatterns.extend(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
+    urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
