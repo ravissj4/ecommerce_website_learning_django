@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+
 {% block head_title %}
     Welcome To 
 {% endblock head_title %}
@@ -32,47 +33,32 @@
     <div class="row">
         
         {% for product in products %}
-            {% comment %} <div class="col-sm-12">
-                {{product.title}}
-            </div> {% endcomment %}
+            <div class="col-sm-4">
 
-            {% comment %} <div class='{% cycle "col-sm-12" "col-sm-4" "col-sm-8" %}'>
-                {% cycle 'first of looping cycle' 'second of looping cycle' 'third of looping cycle' %}
-                {{product.id}}
-            </div> {% endcomment %}
+                <div class="thumbnail">
+                    {% if product.productimage_set.all %}
+                        {% for item in product.productimage_set.all %}
+                            {% if item.featured %}
+                                <img class="img-responsive" src="{{MEDIA_URL}}{{item.image}}">
+                            {% endif %}
+                        {% endfor %}
 
-            <div class="col-sm-3">
-                {% for item in product.productimage_set.all %}
-                    {% if item.featured %}
-                        {% comment %} {{MEDIA_URL}}
-                        {{item.image}} {% endcomment %}
-                        <img src="{{MEDIA_URL}}{{item.image}}">
+                    {% else %}
+                        <img  class='img-responsive' src="{% static 'img/placeholder.svg' %}"  alt="">
                     {% endif %}
-                {% endfor %}
-                {% comment %} {{product.id}} {% endcomment %}
-
-                {% comment %}
-                    1st way 
-                    <a href="products/{{product.slug}}">{{product.title}}</a>
-                    2nd way
-                    <a href="{% url 'single_product' product.slug %}">{{product.title}}</a> 
-                    3rd way 
-                {% endcomment %}
-                    <a href="{{  product.get_absolute_url }}">{{product.title}}</a>
-                {{product.price}}
-                {% comment %} {{product.slug}} {% endcomment %}
+                    
+                    <div class="caption">
+                        <a href="{{  product.get_absolute_url }}"><h3>{{product.title}}</h3></a>
+                        <p>{{ product.description|truncatewords:15}}</p>
+                        <p>
+                            <a href="{{  product.get_absolute_url }}" class="btn btn-primary" role="button">View</a> 
+                            <a href="#" class="btn btn-default" role="button">Button</a>
+                        </p>
+                    </div>
+                </div>          
             </div>
 
-            {% cycle "" "" "" "</div><br><hr><div class='row'>" %}
-
-                {% comment %} 
-                    foreign key connection comes in handy here : 
-                    {{model.modelnamewithforeignkey_set.all}} 
-                {% endcomment %}
-                {% comment %} {{product.productimage_set.all}} {% endcomment %}
-
-                
-            
+            {% cycle "" "" "</div><br><hr><div class='row'>" %}
         {% endfor %}
         
     </div>

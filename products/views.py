@@ -1,5 +1,5 @@
 from django.shortcuts import render, Http404
-from .models import Product
+from .models import Product, ProductImage
 
 # # Create your views here.
 # def home(request):
@@ -35,9 +35,10 @@ def single(request, slug):
         # print(slug)
         # product = Product.objects.get(id=id)
         product = Product.objects.get(slug=slug)
-
+        # images = Product.productimage_set.all()
+        images = ProductImage.objects.filter(product=product)
         template = 'products/single.html'
-        context = {"product" : product}
+        context = {"product" : product, "images": images}
         return render(request, template, context)
     except:
         raise Http404
